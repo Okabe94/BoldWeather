@@ -3,12 +3,15 @@ package com.example.boldweather.data.model
 import com.squareup.moshi.Json
 
 data class ForecastResponse(
-    @Json(name = "current") val currentWeather: Current,
+    @Json(name = "current") val current: CurrentWeather,
     @Json(name = "forecast") val forecast: Forecast,
     @Json(name = "location") val location: Location
 )
 
-data class Current(@Json(name = "condition") val condition: Condition)
+data class CurrentWeather(
+    @Json(name = "temp_c") val tempC: Double,
+    @Json(name = "condition") val condition: Condition
+)
 
 data class Forecast(
     @Json(name = "forecastday") val forecastList: List<ForecastDay>
@@ -23,18 +26,18 @@ data class Location(
     @Json(name = "localtime") val localtime: String,
 )
 
+data class ForecastDay(
+    @Json(name = "date") val date: String,
+    @Json(name = "day") val day: Day,
+)
+
+data class Day(
+    @Json(name = "avgtemp_c") val avgTempC: Double,
+    @Json(name = "condition") val condition: Condition
+)
+
 data class Condition(
     @Json(name = "text") val text: String,
     @Json(name = "code") val code: Int,
 )
 
-data class ForecastDay(
-    @Json(name = "date") val date: String,
-    @Json(name = "day") val day: Current,
-    @Json(name = "hour") val hour: List<Hour>
-)
-
-data class Hour(
-    @Json(name = "condition") val condition: Condition,
-    @Json(name = "time") val time: String,
-)
