@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -70,6 +71,10 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit2.converter.moshi)
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.ui)
     implementation(libs.androidx.core.ktx)

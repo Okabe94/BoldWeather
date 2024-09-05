@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.boldweather.di.AppDispatcher
 import com.example.boldweather.feature_search_suggestion.domain.SearchSuggestionRepository
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

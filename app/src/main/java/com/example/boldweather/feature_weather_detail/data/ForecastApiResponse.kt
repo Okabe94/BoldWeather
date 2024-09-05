@@ -3,41 +3,41 @@ package com.example.boldweather.feature_weather_detail.data
 import com.squareup.moshi.Json
 
 data class ForecastApiResponse(
-    @Json(name = "current") val current: CurrentWeather?,
-    @Json(name = "forecast") val forecast: Forecast?,
-    @Json(name = "location") val location: Location?
+    @field:Json(name = "current") val current: CurrentWeather?,
+    @field:Json(name = "forecast") val forecast: Forecast?,
+    @field:Json(name = "location") val location: Location?
 )
 
 data class CurrentWeather(
-    @Json(name = "temp_c") val tempC: Double?,
-    @Json(name = "condition") val condition: Condition?
+    @field:Json(name = "temp_c") val tempC: Double?,
+    @field:Json(name = "condition") val condition: Condition?
 )
 
 data class Forecast(
-    @Json(name = "forecastday") val forecastList: List<ForecastDay>?
+    @field:Json(name = "forecastday") val forecastDayList: List<ForecastDay>?
 )
 
 data class Location(
-    @Json(name = "lat") val lat: Double?,
-    @Json(name = "lon") val lon: Double?,
-    @Json(name = "name") val name: String?,
-    @Json(name = "region") val region: String?,
-    @Json(name = "country") val country: String?,
-    @Json(name = "localtime") val localtime: String?,
+    @field:Json(name = "lat") val lat: Double?,
+    @field:Json(name = "lon") val lon: Double?,
+    @field:Json(name = "name") val name: String?,
+    @field:Json(name = "region") val region: String?,
+    @field:Json(name = "country") val country: String?,
+    @field:Json(name = "localtime") val localtime: String?,
 )
 
 data class ForecastDay(
-    @Json(name = "date") val date: String?,
-    @Json(name = "day") val day: Day?,
+    @field:Json(name = "date") val date: String?,
+    @field:Json(name = "day") val day: Day?,
 )
 
 data class Day(
-    @Json(name = "avgtemp_c") val avgTempC: Double?,
-    @Json(name = "condition") val condition: Condition?
+    @field:Json(name = "avgtemp_c") val avgTempC: Double?,
+    @field:Json(name = "condition") val condition: Condition?
 )
 
 data class Condition(
-    @Json(name = "text") val text: String?,
-    @Json(name = "code") val code: Int?,
+    @field:Json(name = "text") val text: String?,
+    @field:Json(name = "code") val code: Int?,
 )
 

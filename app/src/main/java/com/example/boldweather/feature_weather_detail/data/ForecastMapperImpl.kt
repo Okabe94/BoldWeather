@@ -17,7 +17,7 @@ class ForecastMapperImpl : ForecastMapper {
             region = location?.region.orEmpty(),
             country = location?.country.orEmpty(),
             localtime = location?.localtime.orEmpty(),
-            forecastList = forecast?.forecastList?.map { forecastDay ->
+            forecastList = forecast?.forecastDayList?.map { forecastDay ->
                 ForecastItem(
                     date = forecastDay.date.orEmpty(),
                     avgTempC = forecastDay.day?.avgTempC ?: 0.0,

@@ -57,11 +57,13 @@ class WeatherApplicationModule : ApplicationModule {
             dispatchers = dispatchers
         )
     }
-    override val forecastViewModel: ForecastViewModel by lazy {
-        ForecastViewModel(
+
+    // Done this way because coroutine scope is cleared after the view model is destroyed
+    // Meaning no more calls can be made in the scope
+    override val forecastViewModel: ForecastViewModel
+        get() = ForecastViewModel(
             forecastRepository = forecastRepository,
             dispatchers = dispatchers
         )
-    }
 
 }

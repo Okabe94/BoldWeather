@@ -9,8 +9,9 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 kotlin = "1.9.0"
 lifecycleRuntimeKtx = "2.8.5"
-navigationCompose = "2.8.0"
+navigationCompose = "2.8.0-alpha08"
 retrofit = "2.11.0"
+serialization = "1.6.3"
 
 [libraries]
 # Core
@@ -25,6 +26,7 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,4 +41,5 @@ retrofit2-converter-moshi = { module = "com.squareup.retrofit2:converter-moshi",
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
