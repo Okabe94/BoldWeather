@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             BoldWeatherTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        name = "",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
