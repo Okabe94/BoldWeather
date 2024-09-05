@@ -1,7 +1,7 @@
-package com.example.boldweather.data.network
+package com.example.boldweather.common.data.network
 
-import com.example.boldweather.data.model.ForecastResponse
-import com.example.boldweather.data.model.SearchSuggestionResponse
+import com.example.boldweather.feature_weather_detail.data.ForecastApiResponse
+import com.example.boldweather.feature_search_suggestion.data.SearchSuggestionApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,7 +10,7 @@ interface WeatherApi {
     suspend fun getSearchSuggestions(
         @Query("q") query: String,
         @Query("key") apiKey: String,
-    ): List<SearchSuggestionResponse>
+    ): List<SearchSuggestionApiResponse>
 
     @GET("forecast.json")
     suspend fun getForecast(
@@ -19,5 +19,5 @@ interface WeatherApi {
         @Query("aqi") airQuality: String,
         @Query("alerts") alerts: String,
         @Query("key") apiKey: String,
-    ): ForecastResponse
+    ): ForecastApiResponse
 }
