@@ -67,19 +67,21 @@ android {
 }
 
 dependencies {
-    // Http requests
-    implementation (libs.retrofit)
-    implementation (libs.retrofit2.converter.moshi)
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit2.converter.moshi)
 
-    testImplementation(libs.junit)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(platform(libs.androidx.compose.bom))
+
+    testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
