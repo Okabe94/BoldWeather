@@ -36,5 +36,8 @@ data class Day(
     @field:Json(name = "condition") val condition: Condition?
 )
 
-data class Condition(@field:Json(name = "icon") val icon: String?)
+data class Condition(
+    @field:Json(name = "icon") val icon: String?,
+    @field:Json(name = "text") val text: String?
+)
 

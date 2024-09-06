@@ -12,7 +12,10 @@ data class ForecastDTO(
     val forecastList: List<ForecastItem>
 )
 
-data class WeatherCondition(val icon: String)
+data class WeatherCondition(
+    val icon: String,
+    val text: String
+)
 
 data class ForecastItem(
     val date: String,

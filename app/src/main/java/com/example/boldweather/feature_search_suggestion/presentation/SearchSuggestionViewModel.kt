@@ -27,8 +27,13 @@ class SearchSuggestionViewModel(
     fun onEvent(event: SearchSuggestionEvent) {
         when (event) {
             is SearchSuggestionEvent.OnQueryChange -> updateQueryAndSearch(event)
+            SearchSuggestionEvent.OnClearQuery -> clearQuery()
             else -> Unit
         }
+    }
+
+    private fun clearQuery() {
+        _viewState.update { SearchSuggestionViewState() }
     }
 
     private fun updateQueryAndSearch(event: SearchSuggestionEvent.OnQueryChange) {
@@ -36,9 +41,10 @@ class SearchSuggestionViewModel(
         _viewState.update {
             it.copy(
                 query = event.query,
-                showSearchHint = if (isQueryBlank) true else it.showSearchHint,
-                showEmptyState = if (isQueryBlank) false else it.showEmptyState,
+                isInitialState = if (isQueryBlank) true else it.isInitialState,
+                isEmptyState = if (isQueryBlank) false else it.isEmptyState,
                 isLoading = false,
+                showDeleteIcon = !isQueryBlank,
                 suggestions = if (isQueryBlank) emptyList() else it.suggestions
             )
         }
@@ -54,8 +60,8 @@ class SearchSuggestionViewModel(
             delay(SEARCH_DELAY_MILLIS)
             _viewState.update {
                 it.copy(
-                    showEmptyState = false,
-                    showSearchHint = false,
+                    isEmptyState = false,
+                    isInitialState = false,
                     isLoading = true
                 )
             }
@@ -64,7 +70,7 @@ class SearchSuggestionViewModel(
 
             _viewState.update {
                 it.copy(
-                    showEmptyState = suggestions.isEmpty(),
+                    isEmptyState = suggestions.isEmpty(),
                     suggestions = suggestions,
                     isLoading = false
                 )
@@ -76,7 +82,7 @@ class SearchSuggestionViewModel(
                 it.copy(
                     suggestions = emptyList(),
                     isLoading = false,
-                    showEmptyState = true
+                    isEmptyState = true
                 )
             }
         }

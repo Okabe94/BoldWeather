@@ -4,8 +4,9 @@ import com.example.boldweather.feature_search_suggestion.domain.model.SearchSugg
 
 data class SearchSuggestionViewState(
     val query: String = "",
-    val showSearchHint: Boolean = true,
-    val showEmptyState: Boolean = false,
+    val isInitialState: Boolean = true,
+    val isEmptyState: Boolean = false,
     val isLoading: Boolean = false,
+    val showDeleteIcon: Boolean = false,
     val suggestions: List<SearchSuggestionDTO> = emptyList()
 )

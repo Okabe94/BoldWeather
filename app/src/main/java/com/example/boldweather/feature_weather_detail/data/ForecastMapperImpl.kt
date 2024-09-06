@@ -31,10 +31,10 @@ class ForecastMapperImpl : ForecastMapper {
 
     private fun mapCondition(condition: Condition?): WeatherCondition {
         val icon = condition?.icon.orEmpty()
-        val weatherCondition =
+        val iconURL =
             if (icon.isEmpty()) icon
             else "$ICON_PREFIX$icon"
 
-        return WeatherCondition(weatherCondition)
+        return WeatherCondition(icon = iconURL, text = condition?.text.orEmpty())
     }
 }

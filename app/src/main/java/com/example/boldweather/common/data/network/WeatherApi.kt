@@ -19,5 +19,6 @@ interface WeatherApi {
         @Query("aqi") airQuality: String,
         @Query("alerts") alerts: String,
         @Query("key") apiKey: String,
+        @Query("lang") language: String = "en",
     ): ForecastApiResponse
 }

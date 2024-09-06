@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BoldWeather</string>
+    <string name="search_screen_title">Weather report</string>
+    <string name="search_placeholder_text">California, USA</string>
+    <string name="loading">Loading…</string>
+    <string name="search_error_message">There are no results for your search.\nTry a different place</string>
+    <string name="search_error_title">No results</string>
 </resources>

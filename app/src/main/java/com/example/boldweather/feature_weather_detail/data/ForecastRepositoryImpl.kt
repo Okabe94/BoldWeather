@@ -5,6 +5,7 @@ import com.example.boldweather.common.data.network.WeatherApi
 import com.example.boldweather.feature_weather_detail.domain.ForecastMapper
 import com.example.boldweather.feature_weather_detail.domain.ForecastRepository
 import com.example.boldweather.feature_weather_detail.domain.model.ForecastDTO
+import java.util.Locale
 
 private const val DEFAULT_SEARCH_PREFIX = "id:"
 private const val DEFAULT_DAYS = 3
@@ -22,7 +23,8 @@ class ForecastRepositoryImpl(
             days = DEFAULT_DAYS,
             airQuality = DEFAULT_AQI,
             alerts = DEFAULT_ALERTS,
-            apiKey = BuildConfig.WEATHER_API_KEY
+            apiKey = BuildConfig.WEATHER_API_KEY,
+            language = Locale.getDefault().language
         )
         return mapper.mapForecast(response)
     }
