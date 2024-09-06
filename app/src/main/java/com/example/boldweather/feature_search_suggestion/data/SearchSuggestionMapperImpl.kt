@@ -9,6 +9,7 @@ class SearchSuggestionMapperImpl : SearchSuggestionMapper {
         response: List<SearchSuggestionApiResponse>
     ): List<SearchSuggestionDTO> = response.map { suggestion ->
         SearchSuggestionDTO(
+            id = suggestion.id ?: 0,
             name = suggestion.name.orEmpty(),
             region = suggestion.region.orEmpty(),
             country = suggestion.country.orEmpty(),

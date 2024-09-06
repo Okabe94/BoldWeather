@@ -25,9 +25,7 @@ class ForecastViewModel(
                     _viewState.update { it.copy(isError = false, isLoading = true) }
 
                     try {
-                        val forecast = forecastRepository.getForecast(
-                            name = event.name, region = event.region, country = event.country
-                        )
+                        val forecast = forecastRepository.getForecast(id = event.id)
                         _viewState.update {
                             it.copy(isError = false, isLoading = false, forecast = forecast)
                         }

@@ -5,6 +5,8 @@ import com.example.boldweather.feature_weather_detail.domain.model.ForecastDTO
 import com.example.boldweather.feature_weather_detail.domain.model.ForecastItem
 import com.example.boldweather.feature_weather_detail.domain.model.WeatherCondition
 
+private const val ICON_PREFIX = "https:"
+
 class ForecastMapperImpl : ForecastMapper {
 
     override fun mapForecast(response: ForecastApiResponse): ForecastDTO = with(response) {
@@ -27,6 +29,12 @@ class ForecastMapperImpl : ForecastMapper {
         )
     }
 
-    private fun mapCondition(condition: Condition?): WeatherCondition =
-        WeatherCondition(text = condition?.text.orEmpty(), code = condition?.code ?: 0)
+    private fun mapCondition(condition: Condition?): WeatherCondition {
+        val icon = condition?.icon.orEmpty()
+        val weatherCondition =
+            if (icon.isEmpty()) icon
+            else "$ICON_PREFIX$icon"
+
+        return WeatherCondition(weatherCondition)
+    }
 }

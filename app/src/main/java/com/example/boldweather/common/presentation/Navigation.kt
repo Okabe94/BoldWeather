@@ -6,8 +6,4 @@ import kotlinx.serialization.Serializable
 object SearchScreen
 
 @Serializable
-data class ForecastDetailScreen(
-    val name: String,
-    val region: String,
-    val country: String
-)
+data class ForecastDetailScreen(val id: Int)
