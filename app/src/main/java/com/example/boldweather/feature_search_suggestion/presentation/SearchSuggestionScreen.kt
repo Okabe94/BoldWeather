@@ -171,9 +171,10 @@ private fun ColumnScope.SuccessfulStateComposable(
     LazyVerticalStaggeredGrid(
         modifier = Modifier
             .fillMaxWidth()
-            .weight(1f),
+            .weight(1f)
+            .padding(bottom = 12.dp),
         columns = StaggeredGridCells.Adaptive(300.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        contentPadding = PaddingValues(16.dp),
         verticalItemSpacing = 8.dp,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {

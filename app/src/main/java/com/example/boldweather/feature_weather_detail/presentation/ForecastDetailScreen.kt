@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Warning
@@ -51,7 +53,11 @@ fun ForecastDetailRoot(viewModel: ForecastViewModel) {
 
 @Composable
 fun ForecastDetailScreen(state: ForecastDetailViewState) {
-    ScreenBackground(modifier = Modifier.padding(16.dp)) {
+    ScreenBackground(
+        modifier = Modifier
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+    ) {
         when {
             state.isLoading -> LoadingStateComposable()
             state.isError -> ErrorStateComposable()
@@ -97,7 +103,9 @@ private fun SuccessfulState(state: ForecastDetailViewState) {
         Spacer(modifier = Modifier.height(12.dp))
 
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
