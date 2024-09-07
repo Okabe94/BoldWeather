@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_screen_title">Reporte del clima</string>
+    <string name="search_placeholder_text">Medellín, Colombia</string>
+    <string name="loading">Cargando…</string>
+    <string name="search_error_message">No hubo resultados para tu búsqueda.\n Intenta con otra ubicación</string>
+    <string name="search_error_title">No hay resultados</string>
+    <string name="search_empty_state_message">LLena el campo de arriba para encontrar el clima de esa ubicación</string>
+    <string name="search_empty_state_title">Comienza a buscar</string>
+    <string name="next_days_forecast">Pronóstico para los próximos días</string>
+    <string name="forecast_detail_empty_title">Nada que mostrar aquí</string>
+    <string name="forecast_detail_empty_message">LLena el campo y selecciona una ubicación válida primero</string>
+    <string name="forecast_detail_error_title">Un error ha ocurrido</string>
+    <string name="forecast_detail_error_message">Por favor selecciona otra ubicación o inténtalo más tarde.</string>
+</resources>

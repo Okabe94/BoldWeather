@@ -10,6 +10,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 private const val ICON_PREFIX = "https:"
+private const val MAX_FUTURE_AMOUNT = 2
 
 class ForecastMapperImpl : ForecastMapper {
 
@@ -23,13 +24,16 @@ class ForecastMapperImpl : ForecastMapper {
             region = location?.region.orEmpty(),
             country = location?.country.orEmpty(),
             localtime = mapTime(time = location?.localtime, fullName = true),
-            forecastList = forecast?.forecastDayList?.map { forecastDay ->
-                ForecastItem(
-                    date = mapTime(time = forecastDay.date, fullName = false),
-                    avgTempC = forecastDay.day?.avgTempC ?: 0.0,
-                    condition = mapCondition(forecastDay.day?.condition)
-                )
-            }.orEmpty()
+            forecastList = forecast?.forecastDayList
+                ?.map { forecastDay ->
+                    ForecastItem(
+                        date = mapTime(time = forecastDay.date, fullName = false),
+                        avgTempC = forecastDay.day?.avgTempC ?: 0.0,
+                        condition = mapCondition(forecastDay.day?.condition)
+                    )
+                }
+                .orEmpty()
+                .takeLast(MAX_FUTURE_AMOUNT)
         )
     }
 
@@ -49,9 +53,9 @@ class ForecastMapperImpl : ForecastMapper {
 
             val monthName = month.getDisplayName(textStyle, locale)
 
-            if (fullName){
+            if (fullName) {
                 "$dayName $dayOfMonth $monthName, $year"
-            } else{
+            } else {
                 "$dayName $dayOfMonth"
             }
         }

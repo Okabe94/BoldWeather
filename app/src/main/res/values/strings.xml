@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BoldWeather</string>
+    <string name="app_name" translatable="false">BoldWeather</string>
     <string name="search_screen_title">Weather report</string>
     <string name="search_placeholder_text">California, USA</string>
     <string name="loading">Loading…</string>

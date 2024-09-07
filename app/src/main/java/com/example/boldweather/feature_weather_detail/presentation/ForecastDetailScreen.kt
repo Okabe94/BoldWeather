@@ -143,6 +143,7 @@ private fun MainForecastCard(forecast: ForecastDTO) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -153,7 +154,6 @@ private fun MainForecastCard(forecast: ForecastDTO) {
                     contentScale = ContentScale.FillBounds
                 )
                 Text(
-                    modifier = Modifier.weight(1f),
                     text = "${forecast.currentWeatherTemp}°",
                     style = MaterialTheme.typography.displayLarge,
                     textAlign = TextAlign.Center,
