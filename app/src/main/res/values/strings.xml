@@ -5,4 +5,11 @@
     <string name="loading">Loading…</string>
     <string name="search_error_message">There are no results for your search.\nTry a different place</string>
     <string name="search_error_title">No results</string>
+    <string name="search_empty_state_message">Fill the box above to find the weather that location</string>
+    <string name="search_empty_state_title">Start searching</string>
+    <string name="next_days_forecast">Next days forecast</string>
+    <string name="forecast_detail_empty_title">Nothing to show here</string>
+    <string name="forecast_detail_empty_message">Fill the search box and select a valid location first</string>
+    <string name="forecast_detail_error_title">An error has occurred</string>
+    <string name="forecast_detail_error_message">Please select another location or try again later.</string>
 </resources>

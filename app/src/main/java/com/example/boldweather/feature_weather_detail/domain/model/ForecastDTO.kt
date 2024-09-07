@@ -3,8 +3,6 @@ package com.example.boldweather.feature_weather_detail.domain.model
 data class ForecastDTO(
     val currentWeatherTemp: Double,
     val currentWeatherCondition: WeatherCondition,
-    val lat: Double,
-    val lon: Double,
     val name: String,
     val region: String,
     val country: String,

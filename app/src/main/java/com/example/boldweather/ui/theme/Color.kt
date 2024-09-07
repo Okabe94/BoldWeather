@@ -12,5 +12,8 @@ val Pink40 = Color(0xFF7D5260)
 
 val WarmSunset = Color(0xFFF3A397)
 val SunnyYellow = Color(0xFFF8EE94)
-val DuskNight = Color(0xFF6528B9)
-val StarrySky = Color(0xFF3C89CE)
+val DuskNight = Color(0xFF2B2F55)
+val StarrySky = Color(0xFF105880)
+
+val TarGray = Color(0xFF3A3B3C)
+val PeachyWhite = Color(0xFFF3E3DC)

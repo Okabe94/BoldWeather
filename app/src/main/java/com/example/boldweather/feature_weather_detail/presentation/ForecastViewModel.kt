@@ -32,6 +32,7 @@ class ForecastViewModel(
                     } catch (e: CancellationException) {
                         throw e
                     } catch (e: Exception) {
+                        e.printStackTrace()
                         _viewState.update {
                             it.copy(isError = true, isLoading = false, forecast = null)
                         }

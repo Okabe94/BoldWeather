@@ -1,37 +1,27 @@
 package com.example.boldweather.feature_search_suggestion.presentation
 
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,11 +35,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -61,16 +47,11 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.boldweather.R
+import com.example.boldweather.common.presentation.DefaultCardComposable
+import com.example.boldweather.common.presentation.LoadingStateComposable
+import com.example.boldweather.common.presentation.ScreenBackground
 import com.example.boldweather.feature_search_suggestion.domain.model.SearchSuggestionDTO
 import com.example.boldweather.ui.theme.BoldWeatherTheme
-import com.example.boldweather.ui.theme.DuskNight
-import com.example.boldweather.ui.theme.StarrySky
-import com.example.boldweather.ui.theme.SunnyYellow
-import com.example.boldweather.ui.theme.WarmSunset
-
-private const val ANIMATION_DURATION = 25000
-private const val TARGET_OFFSET = 1000
-private const val BRUSH_SIZE = 2000f
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
@@ -101,86 +82,15 @@ fun SearchSuggestionScreen(
     onEvent: (SearchSuggestionEvent) -> Unit,
     state: SearchSuggestionViewState
 ) {
-
-    val bgColors = if (isSystemInDarkTheme()) {
-        listOf(DuskNight, StarrySky)
-    } else {
-        listOf(WarmSunset, SunnyYellow)
-    }
-
-    val infiniteTransition = rememberInfiniteTransition(label = "background")
-    val targetOffset = with(LocalDensity.current) { TARGET_OFFSET.dp.toPx() }
-
-    val offset by infiniteTransition.animateFloat(
-        label = "offset",
-        initialValue = 0f,
-        targetValue = targetOffset,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = ANIMATION_DURATION,
-                easing = LinearEasing
-            ),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .drawWithCache {
-            val brushSize = BRUSH_SIZE
-            val brush = Brush.linearGradient(
-                colors = bgColors,
-                start = Offset(offset, offset),
-                end = Offset(offset + brushSize, offset + brushSize),
-            )
-            onDrawBehind { drawRect(brush) }
-        }) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            text = stringResource(R.string.search_screen_title),
-            style = MaterialTheme.typography.headlineSmall,
-            textAlign = TextAlign.Center,
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.SemiBold
-        )
-        TextField(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            value = state.query,
-            onValueChange = {
-                onEvent(SearchSuggestionEvent.OnQueryChange(it))
-            },
-            shape = CircleShape,
-            singleLine = true,
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-            ),
-            maxLines = 1,
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null
-                )
-            },
-            trailingIcon = {
-                if (state.showDeleteIcon) {
-                    Icon(
-                        modifier = Modifier.clickable {
-                            onEvent(SearchSuggestionEvent.OnClearQuery)
-                        },
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null
-                    )
-                }
-            },
-            placeholder = {
-                Text(text = stringResource(R.string.search_placeholder_text))
-            }
+    ScreenBackground {
+        ScreenTitle()
+        SearchTextField(
+            state = state,
+            onValueChange = { onEvent(SearchSuggestionEvent.OnQueryChange(it)) },
+            onClearClick = { onEvent(SearchSuggestionEvent.OnClearQuery) }
         )
         when {
-            state.isInitialState -> Unit
+            state.isInitialState -> InitialStateComposable()
             state.isLoading -> LoadingStateComposable()
             state.isEmptyState -> EmptyStateComposable()
             else -> SuccessfulStateComposable(
@@ -192,55 +102,91 @@ fun SearchSuggestionScreen(
 }
 
 @Composable
+private fun ColumnScope.SearchTextField(
+    onValueChange: (String) -> Unit,
+    onClearClick: () -> Unit,
+    state: SearchSuggestionViewState
+) {
+    TextField(
+        modifier = Modifier.align(Alignment.CenterHorizontally),
+        value = state.query,
+        onValueChange = { onValueChange(it) },
+        shape = CircleShape,
+        singleLine = true,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            focusedPlaceholderColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            unfocusedPlaceholderColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        maxLines = 1,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        },
+        trailingIcon = {
+            if (state.showDeleteIcon) {
+                Icon(
+                    modifier = Modifier.clickable { onClearClick() },
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        },
+        placeholder = {
+            Text(text = stringResource(R.string.search_placeholder_text))
+        }
+    )
+}
+
+@Composable
+private fun ScreenTitle() {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        text = stringResource(R.string.search_screen_title),
+        style = MaterialTheme.typography.headlineLarge,
+        textAlign = TextAlign.Center,
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.SemiBold
+    )
+}
+
+@Composable
 private fun ColumnScope.SuccessfulStateComposable(
     onClick: (Int) -> Unit,
     suggestions: List<SearchSuggestionDTO>
 ) {
     Spacer(modifier = Modifier.height(16.dp))
 
-    LazyColumn(
+    LazyVerticalStaggeredGrid(
         modifier = Modifier
             .fillMaxWidth()
             .weight(1f),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        contentPadding = PaddingValues(8.dp)
+        columns = StaggeredGridCells.Adaptive(300.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        verticalItemSpacing = 8.dp,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(suggestions) { suggestion ->
             Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
                 shape = MaterialTheme.shapes.large,
                 onClick = { onClick(suggestion.id) }
             ) {
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {q
-                    Icon(imageVector = Icons.Outlined.LocationOn, contentDescription = null)
-
-                    Column {
-                        val entryLocation = buildAnnotatedString {
-                            withStyle(
-                                SpanStyle(
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 18.sp
-                                )
-                            ) {
-                                append(suggestion.name)
-                            }
-                            append(", ")
-                            append(suggestion.region)
-                        }
-                        Text(
-                            text = suggestion.country,
-                            fontFamily = FontFamily.Default,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Text(
-                            text = entryLocation,
-                            fontFamily = FontFamily.Default,
-                        )
-                    }
-                }
+                LocationCard(suggestion)
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -248,70 +194,56 @@ private fun ColumnScope.SuccessfulStateComposable(
 }
 
 @Composable
-private fun EmptyStateComposable() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.5f),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+private fun LocationCard(suggestion: SearchSuggestionDTO) {
+    Row(
+        modifier = Modifier.padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Card(
-            modifier = Modifier.padding(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
-                    )
-                    Text(
-                        text = stringResource(R.string.search_error_title),
+        Icon(imageVector = Icons.Outlined.LocationOn, contentDescription = null)
+
+        Column {
+            val entryLocation = buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
                         fontWeight = FontWeight.Bold,
-                        style = MaterialTheme.typography.titleLarge,
-                        fontFamily = FontFamily.Default,
+                        fontSize = 18.sp
                     )
+                ) {
+                    append(suggestion.name)
                 }
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = stringResource(R.string.search_error_message),
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontFamily = FontFamily.Default,
-                )
+                append(", ")
+                append(suggestion.region)
             }
+            Text(
+                text = suggestion.country,
+                fontFamily = FontFamily.Default,
+                style = MaterialTheme.typography.bodySmall
+            )
+            Text(
+                text = entryLocation,
+                fontFamily = FontFamily.Default,
+            )
         }
     }
 }
 
 @Composable
-private fun ColumnScope.LoadingStateComposable() {
-    Box(
-        modifier = Modifier
-            .weight(1f)
-            .fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.align(Alignment.Center),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(
-                modifier = Modifier.padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Icon(imageVector = Icons.Outlined.LocationOn, contentDescription = null)
-                Text(text = stringResource(R.string.loading))
-            }
-            CircularProgressIndicator(modifier = Modifier.size(36.dp))
-        }
-    }
+private fun EmptyStateComposable() {
+    DefaultCardComposable(
+        title = stringResource(id = R.string.search_error_title),
+        message = stringResource(id = R.string.search_error_message),
+        icon = Icons.Outlined.Info
+    )
+}
+
+@Composable
+private fun InitialStateComposable() {
+    DefaultCardComposable(
+        title = stringResource(R.string.search_empty_state_title),
+        message = stringResource(R.string.search_empty_state_message),
+        icon = Icons.Default.Place
+    )
 }
 
 @PreviewLightDark
@@ -320,7 +252,7 @@ private fun SearchSuggestionScreenPreview() {
     BoldWeatherTheme {
         SearchSuggestionScreen(
             onEvent = {}, state = SearchSuggestionViewState(
-                query = "",
+                query = "hola mundo",
                 isInitialState = false,
                 isEmptyState = false,
                 isLoading = false,
